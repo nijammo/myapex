@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
         catch (...)
         {
             printf("Loading Screen detected; pausing execution until finsished\n");
-            std::this_thread::sleep_for(std::chrono::seconds(10));
+            std::this_thread::sleep_for(std::chrono::seconds(30));
         }
     }
 }

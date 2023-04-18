@@ -37,7 +37,8 @@ public:
             Player *player = m_players->at(i);
             if (!player->isValid())
                 continue;
-            if ((player->getTeamNumber() == m_localPlayer->getTeamNumber()) || m_level->isTrainingArea())
+            if ((player->getTeamNumber() == m_localPlayer->getTeamNumber()) && !m_level->isTrainingArea())
+		
 		 continue;
 		if (player->isVisible())
             {
@@ -46,11 +47,14 @@ public:
                 player->setGlowColorRed(0);
                 player->setGlowColorGreen(3);
                 player->setGlowColorBlue(0);
+
             }
             else
             {
+
                 const int enemyShields = player->getShieldsValue();
-                int r, g, b;
+                const int enemyHealth = player->getHealthValue();
+		double r, g, b;
                 if (enemyShields >= 120)
                 {
                     r = 3;
@@ -69,12 +73,19 @@ public:
                     g = 1;
                     b = 2;
                 }
-                else
+                else if (enemyShields >= 1)
                 {
                     r = 1;
                     g = 1;
                     b = 1;
                 }
+		else 
+		{
+		    r = 3 - (enemyHealth*0.03);
+		    b = 0;
+		    g = enemyHealth*0.03;
+			//std::cout << "red: " << r << "green: " << g << std::endl;
+		}
 
                 player->setGlowEnable(1);
                 player->setGlowThroughWall(1);

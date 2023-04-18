@@ -102,6 +102,14 @@ public:
         int result = mem::ReadInt(ptrLong);        
         return result;
     }
+    int getHealthValue()
+    {
+        long basePointer = getBasePointer();
+        long ptrLong = basePointer + offsets::CURRENT_HEALTH;
+        int result = mem::ReadInt(ptrLong);
+        return result;
+    }
+
     int getGlowEnable()
     {
         long basePointer = getBasePointer();
