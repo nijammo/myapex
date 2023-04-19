@@ -32,20 +32,20 @@ You can do so with this command: ```sysctl kernel.yama.ptrace_scope=2```
 ```
 git clone https://github.com/AdverseMiller/myapex.git
 cd myapex
-g++ Main.cpp -lX11
+./build
 ```
 
 4. Open the game
 
 5. Run the cheat (needs root for memory r/w and prevent EAC detection)
 ```
-./a.out
+./sh
 ```
 
 The cheat will then load the config located in myapex.ini by default, you can choose a config file by providing it as a start argument.\
 Example:
 ```
-./a.out otherconfig.ini
+./sh otherconfig.ini
 ```
 
 
