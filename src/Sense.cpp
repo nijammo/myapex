@@ -55,7 +55,11 @@ public:
                 const int enemyShields = player->getShieldsValue();
                 const int enemyHealth = player->getHealthValue();
 		double r, g, b;
-                if (enemyShields >= 120)
+
+		if(player->isKnocked()) {
+			r = 3, g = 0, b = 0; 
+		}
+	 	else if (enemyShields >= 120)
                 {
                     r = 3;
                     g = 0;
@@ -84,7 +88,6 @@ public:
 		    r = 3 - (enemyHealth*0.03);
 		    b = 0;
 		    g = enemyHealth*0.03;
-			//std::cout << "red: " << r << "green: " << g << std::endl;
 		}
 
                 player->setGlowEnable(1);
