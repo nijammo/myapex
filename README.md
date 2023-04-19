@@ -2,7 +2,7 @@
 Simple C++ cheats for Apex Legends (Linux Steam version).
 
 ### Sense 
-Hijacks Bloodhound Scan/Caustic Vision to force enable ESP on all players (Visible and Invisible)
+Hijacks Bloodhound Scan/Caustic Vision to force enable ESP on all players (Visible and Invisible).
 Has color codes for each type of Evo shield and shows color ranges between green and red for high health and low health respectively
 
 
