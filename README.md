@@ -21,11 +21,11 @@ Decent aimbot with adjustable FOV, smoothness, and distance.
 ### Warnings
 The chances of getting banned by EAC using this cheat are basically zero. (You have better chances of getting VAC banned on CSGO than by EAC)\
 However, you can get manually banned which has happened to me on several occasions.\
-You should also use an alt account.\
+You should also use an alt account.
 
 This isn't required, but you should change the sysctl parameter *kernel.yama.ptrace_scope* to atleast 1 (preferably 2).\
 This will completely disable process debugging for non-root processes which should in theory handicap EAC even further.\
-You can do so with this command: ```sysctl kernel.yama.ptrace_scope=2```\
+You can do so with this command: ```sysctl kernel.yama.ptrace_scope=2```
 
 ### Download & Compile
 
@@ -37,7 +37,7 @@ g++ Main.cpp -lX11
 
 4. Open the game
 
-5. Run the cheat (needs root for memory r/w and prevent EAC detection)\
+5. Run the cheat (needs root for memory r/w and prevent EAC detection)
 ```
 ./a.out
 ```
