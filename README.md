@@ -1,95 +1,54 @@
 # MyApex
-Simple C++ cheats for Apex Legends (Linux Steam version).
+Simple C++ cheats for Apex Legends (Linux Steam version). 
 
 ### Sense 
-Invisible enemies will be highlighted with Bloodhound Scan.
-Visible enemies will be highlighted using Caustic Vision.
+Hijacks Bloodhound Scan/Caustic Vision to force enable ESP on all players (Visible and Invisible).\
+Has color codes for each type of Evo shield and shows color ranges between green and red for high health and low health respectively  
+
 
 ### NoRecoil
-Adjustable reduction in vertical and horizontal weapon recoil.
+Reduce weapon recoil (could be improved)
+
 
 ### Aimbot
-An adjustable aimbot intended for CQC combat. 
-Works of enemy posistion rather than bones. 
-Only works horizontally.
+Decent aimbot with adjustable FOV, smoothness, and distance.
 
 ## Requirements
-1. Linux OS with X11
-2. g++ compiler (Ubuntu 11.2.0-19ubuntu1) 11.2.0 or higher)
+1. Linux with Xorg
+2. g++
 3. Git
 
-### HOW TO SETUP & RUN
+### Warnings
+The chances of getting banned by EAC using this cheat are basically zero. (You have better chances of getting VAC banned on CSGO than by EAC)\
+However, you can get manually banned which has happened to me on several occasions.\
+You should also use an alt account.
 
-1. Open terminal and run the following to download the cheat source code
+This isn't required, but you should change the sysctl parameter *kernel.yama.ptrace_scope* to atleast 1 (preferably 2).\
+This will completely disable process debugging for non-root processes which should in theory handicap EAC even further.\
+You can do so with this command: ```sysctl kernel.yama.ptrace_scope=2```
+
+### Download & Compile
 
 ```
-git clone https://github.com/arturzxc/myapex.git
-```
-
-2. Go inside the downloaded folder
-
-```
+git clone https://github.com/AdverseMiller/myapex.git
 cd myapex
+./build
 ```
 
-3. Compile the code 
+4. Open the game
 
+5. Run the cheat (needs root for memory r/w and prevent EAC detection)
 ```
-g++ Main.cpp -lX11
-```
-
-4. Go to your Steam and run Apex Legends
-
-5. Run the cheat (requires sudo access for read & write memory)
-
-```
-sudo ./a.out
+./sh
 ```
 
-If everything went fine then you will see something simmilar to the text below
+The cheat will then load the config located in myapex.ini by default, you can choose a config file by providing it as a start argument.\
+Example:
 ```
-======================== SETTINGS LOADED ========================
-FEATURE_AIMBOT_ON               false
-FEATURE_NORECOIL_ON             true
-FEATURE_SENSE_ON                true
-AIMBOT_TRIGGER                  0
-AIMBOT_SMOOTHING                100
-AIMBOT_ACTIVATION_FOV           20
-AIMBOT_MAX_RANGE                50
-NORECOIL_PITCH_STRENGTH         0.500000
-NORECOIL_YAW_STRENGTH           0.500000
-=================================================================
-
-UPDATE[1000] OK. 
-UPDATE[0] OK. 
-UPDATE[1000] OK. 
-UPDATE[0] OK. 
-```
-
-# FAQ
-
-### Why nothing is working!
-Check your settings and make sure the features you want to use are set to true but if that doesn't work then the offsets might need an update. For any devs out there, please feel free to create pull requests for offset updates.
-
-
-### Why aimbot is not working!?
-Aimbot is disabled by default. If you want it to work then edit myapex.ini and set it to true.
-
-### I am getting "... fatal error: X11/Xlib.h ... "
-You are missing X11 library for linux. On ubuntu based distros, you can install it with the command below
-
-```
-sudo apt install libx11-dev
+./sh otherconfig.ini
 ```
 
 
-### Segmentation fault!
-Offsets need an update
-
-### "The client is not running the anti-cheating system, bla bla errors..."
-This has nothing to do with the cheat but rather linux/steam/apex installation.
-Make sure you have the "Proton EasyAntiCheat Runtime" installed on Steam.
-There are times that even if you have the above installed, it still has issues. This is due to linux libraries being outdated. I personally suggest you install Steam via Flatpak to avoid any problem with libraries.
 
 
 
