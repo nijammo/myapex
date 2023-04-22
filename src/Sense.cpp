@@ -69,10 +69,11 @@ public:
 		    	r = 1.5;
                     	g = 0;
                     	b = 1.5;
-		    } else if(evo == 4)
+		    } else if(evo == 4) {
 			r = 3;
 			g = 1.2;
 			b = 0.3;
+		    }
                 }
                 else if (enemyShields >= 75)
                 {
