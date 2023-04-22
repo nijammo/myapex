@@ -45,6 +45,7 @@ public:
                 return;
             }
         }
+
         if (!m_level->isPlayable())
         {
             m_lockedOnPlayer = nullptr;
@@ -52,21 +53,21 @@ public:
         }
         if (m_localPlayer->isDead())
         {
-            m_lockedOnPlayer = nullptr;
+	    m_lockedOnPlayer = nullptr;
             return;
         }
-        if (m_localPlayer->isKnocked())
+        /*if (m_localPlayer->isKnocked())
         {
-            m_lockedOnPlayer = nullptr;
+	    m_lockedOnPlayer = nullptr;
             return;
-        }
-        if (m_configLoader->getAimbotTrigger() == 0x0000) // our trigger is localplayer attacking
+        }*/
+        if ((m_configLoader->getAimbotTrigger() == 0x0000) || m_localPlayer->isKnocked()) // our trigger is localplayer attacking
             if (!m_localPlayer->isInAttack())
             {
+		//std::cout << "this";
                 m_lockedOnPlayer = nullptr;
                 return;
             }
-
         // get desired angle to an enemy
         double desiredViewAngleYaw = 0;
         double desiredViewAnglePitch = 0;
@@ -110,6 +111,8 @@ public:
         }
 	
         int smoothingLevel = m_configLoader->getAimbotSmoothing();
+	int aimbotFOV = m_configLoader->getAimbotActivationFOV();
+	if (m_localPlayer->isKnocked()) {smoothingLevel = 1; aimbotFOV=180;}
         //if(distanceToTarget > 5) smoothingLevel = smoothingLevel*(distanceToTarget*15);
 
         // Setup Pitch
@@ -185,12 +188,13 @@ public:
         for (int i = 0; i < m_players->size(); i++)
         {
             Player *player = m_players->at(i);
-            if (!player->isValid())
+	if (!player->isValid())
                 continue;
             if (player->isKnocked())
                 continue;
-            if (player->getTeamNumber() == m_localPlayer->getTeamNumber() || m_level->isTrainingArea())
-                continue;
+           if (player->getTeamNumber() == m_localPlayer->getTeamNumber() /*&& !m_level->isTrainingArea()*/) {
+               continue;
+		}
             if (!player->isVisible())
                 continue;
             double desiredViewAngleYaw = calculateDesiredYaw(m_localPlayer->getLocationX(),

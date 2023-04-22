@@ -37,7 +37,7 @@ public:
             Player *player = m_players->at(i);
             if (!player->isValid())
                 continue;
-            if ((player->getTeamNumber() == m_localPlayer->getTeamNumber()) && !m_level->isTrainingArea())
+            if ((player->getTeamNumber() == m_localPlayer->getTeamNumber()))
 		
 		 continue;
 		if (player->isVisible())
