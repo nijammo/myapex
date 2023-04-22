@@ -29,6 +29,7 @@ public:
         m_players = players;
         m_x11Utils = x11Utils;
     }
+    double r, g, b;
     void update()
     {
         if (!m_level->isPlayable()) return;
@@ -37,7 +38,7 @@ public:
             Player *player = m_players->at(i);
             if (!player->isValid())
                 continue;
-            if ((player->getTeamNumber() == m_localPlayer->getTeamNumber()))
+            if(!m_level->isTrainingArea()) if(player->getTeamNumber() == m_localPlayer->getTeamNumber())
 		
 		 continue;
 		if (player->isVisible())
@@ -54,12 +55,9 @@ public:
 
                 const int enemyShields = player->getShieldsValue();
                 const int enemyHealth = player->getHealthValue();
-		double r, g, b;
+		const int evo = player->getArmorType();
 
-		if(player->isKnocked()) {
-			r = 3, g = 0, b = 0; 
-		}
-	 	else if (enemyShields >= 120)
+	 	if (enemyShields >= 120)
                 {
                     r = 3;
                     g = 0;
@@ -67,9 +65,14 @@ public:
                 }
                 else if (enemyShields >= 100)
                 {
-                    r = 1.5;
-                    g = 0;
-                    b = 1.5;
+                    if(evo == 3) {
+		    	r = 1.5;
+                    	g = 0;
+                    	b = 1.5;
+		    } else if(evo == 4)
+			r = 3;
+			g = 1.2;
+			b = 0.3;
                 }
                 else if (enemyShields >= 75)
                 {

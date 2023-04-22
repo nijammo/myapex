@@ -53,12 +53,25 @@ public:
         int result = mem::ReadInt(ptrLong);
         return result;
     }
+    int getArmorType()
+    {
+        long basePointer = getBasePointer();
+        long ptrLong = basePointer + offsets::ARMOR_TYPE;
+        int result = mem::ReadInt(ptrLong);
+        return result;
+    }
     bool isInAttack()
     {
         long basePointer = getBasePointer();
         long ptrLong = offsets::REGION + offsets::IN_ATTACK;
         int result = mem::ReadInt(ptrLong);
         return result > 0;
+    }
+    void setAttackState(bool state) 
+    {
+	long basePointer = getBasePointer();
+        long ptrLong = offsets::REGION + offsets::IN_ATTACK;
+        mem::WriteBool(ptrLong, state);
     }
     std::string getName()
     {

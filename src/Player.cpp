@@ -109,7 +109,13 @@ public:
         int result = mem::ReadInt(ptrLong);
         return result;
     }
-
+    int getArmorType()
+    {
+        long basePointer = getBasePointer();
+        long ptrLong = basePointer + offsets::ARMOR_TYPE;
+        int result = mem::ReadInt(ptrLong);
+        return result;
+    }
     int getGlowEnable()
     {
         long basePointer = getBasePointer();

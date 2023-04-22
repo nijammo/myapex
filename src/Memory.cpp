@@ -113,6 +113,14 @@ namespace mem
         if (!success)
             throw new std::invalid_argument("Failed to write int at address: " + address);
     }
+    void WriteBool(long address, bool state)
+    {
+        int size = sizeof(int);
+        int buffer = state;
+        bool success = Write(address, &buffer, size);
+        if (!success)
+            throw new std::invalid_argument("Failed to write bool at address: " + address);
+    }
     float ReadFloat(long address)
     {
         int size = sizeof(float);
