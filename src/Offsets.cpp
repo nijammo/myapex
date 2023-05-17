@@ -30,5 +30,5 @@ namespace offsets
     const long LAST_VISIBLE_TIME = 0x1A80;          // [Miscellaneous]                  -> CPlayer!lastVisibleTime
     const long CURRENT_SHIELDS = 0x0170;            // m_shieldHealth
     const long CURRENT_HEALTH = 0x043c;		    // m_iHealth
-    const long ARMOR_TYPE = 0x4634;
+    const long ARMOR_TYPE = 0x464c;
 }
