@@ -5,13 +5,13 @@ namespace offsets
 {
     // buttons
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    const long IN_ATTACK = 0x074034b0;            // [Buttons] -> in_attack
+    const long IN_ATTACK = 0x074045b0;            // [Buttons] -> in_attack
     // core
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const long REGION = 0x140000000;              // [Mine]          -> Region
-    const long LEVEL = 0x165bd30;                 // [Miscellaneous] -> LevelName
-    const long LOCAL_PLAYER = (0x02139480 + 0x8); // [Miscellaneous] -> AVC_GameMovement+0x8
-    const long ENTITY_LIST = 0x1d87e88;           // [Miscellaneous] -> cl_entitylist
+    const long LEVEL = 0x165ce70;                 // [Miscellaneous] -> LevelName
+    const long LOCAL_PLAYER = (0x0213a5c0 + 0x8); // [Miscellaneous] -> AVC_GameMovement+0x8
+    const long ENTITY_LIST = 0x1d88fc8;           // [Miscellaneous] -> cl_entitylist
     // entity
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const long LOCAL_ORIGIN = 0x0158; // [DataMap.CBaseViewModel]    -> m_localOrigin
@@ -30,5 +30,5 @@ namespace offsets
     const long LAST_VISIBLE_TIME = 0x1A80;          // [Miscellaneous]                  -> CPlayer!lastVisibleTime
     const long CURRENT_SHIELDS = 0x0170;            // m_shieldHealth
     const long CURRENT_HEALTH = 0x043c;		    // m_iHealth
-    const long ARMOR_TYPE = 0x464c;
+    const long ARMOR_TYPE = 0x464c;		    // m_armorType
 }
