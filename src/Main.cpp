@@ -20,7 +20,7 @@ std::string m_fileName = "myapex.ini";
 int main(int argc, char *argv[])
 {
 
-    if(argc > 1) m_fileName = argv[1];
+    if(argc > 1 && strcmp(argv[1], "--testoffset") == 0) m_fileName = argv[1];
 
 
     ConfigLoader *configLoader = new ConfigLoader();
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     LocalPlayer *localPlayer = new LocalPlayer();
     X11Utils *x11Utils = new X11Utils();
     std::vector<Player *> *players = new std::vector<Player *>;
-
+    
     for (int i = 0; i < 60; i++)
     {
         players->push_back(new Player(i));
@@ -49,6 +49,42 @@ int main(int argc, char *argv[])
     Sense *sense = new Sense(configLoader, level, localPlayer, players, x11Utils);
     NoRecoil *noRecoil = new NoRecoil(configLoader, level, localPlayer, players, x11Utils);
     Aimbot *aimbot = new Aimbot(configLoader, level, localPlayer, players, x11Utils);
+
+    
+
+    if(argc > 1 && strcmp(argv[1], "--testoffset") == 0) {
+	printf("Offset testing will begin in 3\n");
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+	printf("2\n");
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+	printf("1\n");	
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+	printf("Testing IN_ATTACK\n");
+	for(int i=0; i<4; i++) {
+		std::cout << localPlayer->isInAttack() << std::endl;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	} 
+	printf("Testing TEAM_NUMBER\n");
+	for(int i=0; i<4; i++) {
+                std::cout << localPlayer->getTeamNumber() << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+        }	
+	printf("Testing NAME\n");
+	for(int i=0; i<4; i++) {
+                std::cout << level->getName() << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+	printf("Testing LIFE_STATE\n");
+        for(int i=0; i<4; i++) {
+                std::cout << localPlayer->isDead() << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+	
+	return 0;
+    }
+
+
+
 
     // Main loop
     printf("Initial config has finished\n");
