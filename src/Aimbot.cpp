@@ -132,7 +132,7 @@ public:
                 continue;
             if (player->isKnocked())
                 continue;
-	    if(!m_level->isTrainingArea()) if(player->getTeamNumber() == m_localPlayer->getTeamNumber())
+	    if(player->getTeamNumber() == m_localPlayer->getTeamNumber() && !m_level->isTrainingArea())
                 continue;
             if (!player->isVisible())
                 continue;
