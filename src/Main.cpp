@@ -20,7 +20,7 @@ std::string m_fileName = "myapex.ini";
 int main(int argc, char *argv[])
 {
 
-    if(argc > 1 && strcmp(argv[1], "--testoffset") == 0) m_fileName = argv[1];
+    if(argc > 1 && !strcmp(argv[1], "--testoffset") == 0) m_fileName = argv[1];
 
 
     ConfigLoader *configLoader = new ConfigLoader();
