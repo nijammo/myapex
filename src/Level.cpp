@@ -27,7 +27,7 @@ public:
     }
     bool isTrainingArea()
     {
-        if (getName().compare("mp_rr_canyonlands_staging") == 0)
+        if (getName().compare("mp_rr_canyonlands_staging_mu1") == 0)
             return true;
         return false;
     }
