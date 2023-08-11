@@ -39,24 +39,22 @@ public:
         { // our trigger is a button
             if (!m_x11Utils->keyDown(m_configLoader->getAimbotTrigger()))
             {
-                m_lockedOnPlayer = nullptr;
+		m_lockedOnPlayer = nullptr;
                 return;
             }
         }
         if (!m_level->isPlayable())
         {
-            m_lockedOnPlayer = nullptr;
+	    m_lockedOnPlayer = nullptr;
             return;
         }
-        if (m_localPlayer->isDead())
+        if (m_localPlayer->isDead() || m_localPlayer->isKnocked())
         {
             m_lockedOnPlayer = nullptr;
             return;
         }
-        if (!m_localPlayer->isKnocked())
-        {
         
-        if (m_configLoader->getAimbotTrigger() == 0x0000) // our trigger is localplayer attacking
+        if (m_configLoader->getAimbotTrigger() == 0x0000) { // our trigger is localplayer attacking
             if (!m_localPlayer->isInAttack())
             {
                 m_lockedOnPlayer = nullptr;
@@ -69,8 +67,6 @@ public:
 	int smoothingLevel = m_configLoader->getAimbotSmoothing();
 	int aimbotFOV = m_configLoader->getAimbotActivationFOV();
 	int aimbotRange = m_configLoader->getAimbotMaxRange();
-
-	if (m_localPlayer->isKnocked())	{smoothingLevel = 1; aimbotFOV = 180; aimbotRange = 30;}
         if (false)
         {
             printf("X:%.6f \t Y: %.6f \t Z:%.6f \n", m_localPlayer->getLocationX(), m_localPlayer->getLocationY(), m_localPlayer->getLocationZ());
@@ -79,8 +75,8 @@ public:
             const float dummyZ = -29234.839844;
             double distanceToTarget = math::calculateDistanceInMeters(m_localPlayer->getLocationX(), m_localPlayer->getLocationY(), m_localPlayer->getLocationZ(), dummyX, dummyY, dummyZ);
                 return;
-            desiredViewAngleYaw = calculateDesiredYaw(m_localPlayer->getLocationX(), m_localPlayer->getLocationY(), dummyX, dummyY);
-            desiredViewAnglePitch = calculateDesiredPitch(m_localPlayer->getLocationX(), m_localPlayer->getLocationY(), m_localPlayer->getLocationZ(), dummyX, dummyY, dummyZ);
+            desiredViewAngleYaw = math::calculateDesiredYaw(m_localPlayer->getLocationX(), m_localPlayer->getLocationY(), dummyX, dummyY);
+            desiredViewAnglePitch = math::calculateDesiredPitch(m_localPlayer->getLocationX(), m_localPlayer->getLocationY(), m_localPlayer->getLocationZ(), dummyX, dummyY, dummyZ);
         }
         else
         {
@@ -94,13 +90,14 @@ public:
                                                                       m_lockedOnPlayer->getLocationX(),
                                                                       m_lockedOnPlayer->getLocationY(),
                                                                       m_lockedOnPlayer->getLocationZ());
+		if(m_localPlayer->isZooming() && distanceToTarget > 20) {smoothingLevel = 7; aimbotFOV=4; aimbotRange=100;}
             if (distanceToTarget > aimbotRange)
                 return;
-            desiredViewAngleYaw = calculateDesiredYaw(m_localPlayer->getLocationX(),
+            desiredViewAngleYaw = math::calculateDesiredYaw(m_localPlayer->getLocationX(),
                                                       m_localPlayer->getLocationY(),
                                                       m_lockedOnPlayer->getLocationX(),
                                                       m_lockedOnPlayer->getLocationY());
-            desiredViewAnglePitch = calculateDesiredPitch(m_localPlayer->getLocationX(),
+            desiredViewAnglePitch = math::calculateDesiredPitch(m_localPlayer->getLocationX(),
                                                           m_localPlayer->getLocationY(),
                                                           m_localPlayer->getLocationZ(),
                                                           m_lockedOnPlayer->getLocationX(),
@@ -110,69 +107,19 @@ public:
 
         // Setup Pitch
         const double pitch = m_localPlayer->getPitch();
-        const double pitchAngleDelta = calculatePitchAngleDelta(pitch, desiredViewAnglePitch);
+        const double pitchAngleDelta = math::calculatePitchAngleDelta(pitch, desiredViewAnglePitch);
         const double pitchAngleDeltaAbs = abs(pitchAngleDelta);
         if (pitchAngleDeltaAbs > aimbotFOV / 2)
             return;
 
         // Setup Yaw
         const double yaw = m_localPlayer->getYaw();
-        const double angleDelta = calculateAngleDelta(yaw, desiredViewAngleYaw);
+        const double angleDelta = math::calculateAngleDelta(yaw, desiredViewAngleYaw);
         const double angleDeltaAbs = abs(angleDelta);
         if (angleDeltaAbs > aimbotFOV)
             return;
-        double newYaw = flipYawIfNeeded(yaw + (angleDelta / smoothingLevel));
+        double newYaw = math::flipYawIfNeeded(yaw + (angleDelta / smoothingLevel));
         m_localPlayer->setYaw(newYaw);
-    }
-    double flipYawIfNeeded(double angle)
-    {
-        double myAngle = angle;
-        if (myAngle > 180)
-            myAngle = (360 - myAngle) * -1;
-        else if (myAngle < -180)
-            myAngle = (360 + myAngle);
-        return myAngle;
-    }
-    double calculatePitchAngleDelta(double oldAngle, double newAngle)
-    {
-        double wayA = newAngle - oldAngle;
-        return wayA;
-    }
-    double calculateAngleDelta(double oldAngle, double newAngle)
-    {
-        double wayA = newAngle - oldAngle;
-        double wayB = 360 - abs(wayA);
-        if (wayA > 0 && wayB > 0)
-            wayB *= -1;
-        if (abs(wayA) < abs(wayB))
-            return wayA;
-        return wayB;
-    }
-    double calculateDesiredYaw(
-        double localPlayerLocationX,
-        double localPlayerLocationY,
-        double enemyPlayerLocationX,
-        double enemyPlayerLocationY)
-    {
-        const double locationDeltaX = enemyPlayerLocationX - localPlayerLocationX;
-        const double locationDeltaY = enemyPlayerLocationY - localPlayerLocationY;
-        const double yawInRadians = atan2(locationDeltaY, locationDeltaX);
-        const double yawInDegrees = yawInRadians * (180 / M_PI);
-        return yawInDegrees;
-    }
-    double calculateDesiredPitch(
-        double localPlayerLocationX,
-        double localPlayerLocationY,
-        double localPlayerLocationZ,
-        double enemyPlayerLocationX,
-        double enemyPlayerLocationY,
-        double enemyPlayerLocationZ)
-    {
-        const double locationDeltaZ = enemyPlayerLocationZ - localPlayerLocationZ;
-        const double distanceBetweenPlayers = math::calculateDistance2D(enemyPlayerLocationX, enemyPlayerLocationY, localPlayerLocationX, localPlayerLocationY);
-        const double pitchInRadians = atan2(-locationDeltaZ, distanceBetweenPlayers);
-        const double pitchInDegrees = pitchInRadians * (180 / M_PI);
-        return pitchInDegrees;
     }
     Player *findClosestEnemy()
     {
@@ -189,11 +136,11 @@ public:
                 continue;
             if (!player->isVisible())
                 continue;
-            double desiredViewAngleYaw = calculateDesiredYaw(m_localPlayer->getLocationX(),
+            double desiredViewAngleYaw = math::calculateDesiredYaw(m_localPlayer->getLocationX(),
                                                              m_localPlayer->getLocationY(),
                                                              player->getLocationX(),
                                                              player->getLocationY());
-            double angleDelta = calculateAngleDelta(m_localPlayer->getYaw(), desiredViewAngleYaw);
+            double angleDelta = math::calculateAngleDelta(m_localPlayer->getYaw(), desiredViewAngleYaw);
             if (closestPlayerSoFar == nullptr)
             {
                 closestPlayerSoFar = player;
