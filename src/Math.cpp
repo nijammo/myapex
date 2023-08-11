@@ -1,6 +1,8 @@
 #pragma once
 #include <math.h>
 
+constexpr double DegreesPerRadian = 180.0 / M_PI;
+
 namespace math
 {
     double distanceToMeters(float distance)
@@ -64,7 +66,7 @@ namespace math
         const double locationDeltaX = enemyPlayerLocationX - localPlayerLocationX;
         const double locationDeltaY = enemyPlayerLocationY - localPlayerLocationY;
         const double yawInRadians = atan2(locationDeltaY, locationDeltaX);
-        const double yawInDegrees = yawInRadians * (180 / M_PI);
+        const double yawInDegrees = yawInRadians * DegreesPerRadian;
         return yawInDegrees;
     }
     double calculateDesiredPitch(
@@ -78,7 +80,7 @@ namespace math
         const double locationDeltaZ = enemyPlayerLocationZ - localPlayerLocationZ;
         const double distanceBetweenPlayers = math::calculateDistance2D(enemyPlayerLocationX, enemyPlayerLocationY, localPlayerLocationX, localPlayerLocationY);
         const double pitchInRadians = atan2(-locationDeltaZ, distanceBetweenPlayers);
-        const double pitchInDegrees = pitchInRadians * (180 / M_PI);
+        const double pitchInDegrees = pitchInRadians * DegreesPerRadian;
         return pitchInDegrees;
     }
 
