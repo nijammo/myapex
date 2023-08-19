@@ -155,6 +155,20 @@ namespace mem
         if (!success)
             throw new std::invalid_argument("Failed to write long at address: " + address);
     }
+    void readbytearray(long address, char* buffer, int size) {
+    	for (int i = 0; i < size; i++) {
+    	    bool success = Read((long)(address + (long)i), &(buffer[i]), sizeof(char));
+            if (!success)
+                throw new std::invalid_argument("Failed to read byte at address: " + address);
+    	}
+    }
+    void writebytearray(long address, char* buffer, int size) {
+    	for (int i = 0; i < size; i++) {
+    	    bool success = Write((long)(address + (long)i), &(buffer[i]), sizeof(char));
+            if (!success)
+                throw new std::invalid_argument("Failed to write byte at address: " + address);
+    	}
+    }    
     std::string convertPointerToHexString(long pointer)
     {
         std::stringstream stream;
