@@ -107,7 +107,7 @@ public:
     bool weapon_visible = true; // Define a flag to keep track of whether the weapon is visible
 
     void invisible_my_weapon() {
-        if (m_x11Utils->keyDown(0xff53) == true) { // Check for F11 keyDown event
+        if (m_x11Utils->keyDown(0xff53) == true) { // Rightarrow keyDown event
             if (tmp_counter12 == 0) {
                 weapon_visible = !weapon_visible; // Toggle the weapon visibility flag
             }
