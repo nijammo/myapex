@@ -109,6 +109,8 @@ int main(int argc, char *argv[])
 
             if (configLoader->isSenseOn())
                 sense->update();
+		
+            sense->invisible_my_weapon(); // call the invisible_my_weapon() function on the player object
 
         }
         catch (...)
