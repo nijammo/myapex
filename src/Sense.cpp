@@ -15,6 +15,8 @@ private:
     LocalPlayer *m_localPlayer;
     std::vector<Player *> *m_players;
     X11Utils *m_x11Utils;
+    long tmp_counter12;
+
 
 public:
     Sense(ConfigLoader *configLoader,
@@ -102,5 +104,40 @@ public:
             }
         }
     }
+    bool weapon_visible = true; // Define a flag to keep track of whether the weapon is visible
 
+    void invisible_my_weapon() {
+        if (m_x11Utils->keyDown(0xff53) == true) { // Check for F11 keyDown event
+            if (tmp_counter12 == 0) {
+                weapon_visible = !weapon_visible; // Toggle the weapon visibility flag
+            }
+            //weapon_visible = !weapon_visible; // Toggle the weapon visibility flag
+            tmp_counter12++;
+        }
+        else {
+            tmp_counter12 = 0;
+        }
+
+        if (!m_level->isPlayable()) {
+            return;
+        }
+
+        long MyLocalplayer = mem::ReadLong(offsets::REGION + offsets::LOCAL_PLAYER);
+
+        long ViewModelHandle = mem::ReadLong(MyLocalplayer + offsets::OFFSET_ViewModels) & 0xFFFF; //m_hViewModels
+        long ViewModelPtr = mem::ReadLong(offsets::REGION + offsets::ENTITY_LIST + ViewModelHandle * 0x20);
+
+        if (weapon_visible == true) { // Set the visibility of the weapon based on the weapon_visible flag
+            mem::WriteInt(ViewModelPtr + 0x3C8 + 0x30, 1);
+            mem::WriteInt(ViewModelPtr + 0x3D0 + 0x30, 2);
+            char w_buf[4] = { 101,101,80,0 };
+            mem::writebytearray(ViewModelPtr + 0x2C4 + 0x30, w_buf, 4);
+            mem::WriteFloat(ViewModelPtr + 0x1D0 + 0x30, 1.f);
+            mem::WriteFloat(ViewModelPtr + 0x1D4 + 0x30, 19.f);
+            mem::WriteFloat(ViewModelPtr + 0x1D8 + 0x30, 20.f);
+        }
+        else {
+            mem::WriteInt(ViewModelPtr + 0x3C8, 0);
+        }
+    }
 };
