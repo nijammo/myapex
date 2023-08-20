@@ -32,4 +32,6 @@ namespace offsets
     constexpr long CURRENT_HEALTH = 0x470;		    // m_iHealth
     constexpr long ARMOR_TYPE = 0x4694;		    // m_armorType
     constexpr long OFFSET_ViewModels = 0x2dc0;         // m_hViewModels
+    constexpr long thirdperson_override = 0x01e03040;          // m_thirdPersonOverride
+    constexpr long m_thirdPersonShoulderView = 0x3728;    // m_thirdPersonShoulderView
 }
