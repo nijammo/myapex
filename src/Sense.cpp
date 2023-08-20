@@ -16,6 +16,9 @@ private:
     std::vector<Player *> *m_players;
     X11Utils *m_x11Utils;
     long tmp_counter12;
+    bool weapon_visible;
+    long tmp_counter1;
+    bool third_person_flag;
 
 
 public:
@@ -30,6 +33,12 @@ public:
         m_localPlayer = localPlayer;
         m_players = players;
         m_x11Utils = x11Utils;
+
+        tmp_counter1 = 0;
+        third_person_flag = false;
+
+        tmp_counter12 = 0;
+        weapon_visible = true;
     }
     double r, g, b;
     void update()
@@ -139,5 +148,37 @@ public:
         else {
             mem::WriteInt(ViewModelPtr + 0x3C8, 0);
         }
+    }
+    void process_thirdperson__pageup() {
+        if (m_x11Utils->keyDown(0xff55) == true) {//PAGE_UP key for thirdperson view
+             if (tmp_counter1 == 0) {
+                  third_person_flag = !third_person_flag;
+             }
+             tmp_counter1++;
+        }
+        else {
+             tmp_counter1 = 0;
+        }
+        
+        if (!m_level->isPlayable()) {
+            return;
+        }
+    
+        long MyLocalplayer = mem::ReadLong(offsets::REGION + offsets::LOCAL_PLAYER);
+        
+		if (third_person_flag == true) {
+    		if (m_localPlayer->isZooming() == false/*m_x11Utils->keyDown(0xff55) == true*/) {
+    	 	    mem::WriteInt(offsets::REGION + offsets::thirdperson_override + 0x6c, 1);
+    		    mem::WriteInt(MyLocalplayer + offsets::m_thirdPersonShoulderView, 1);
+    		}
+    		else {
+    		    mem::WriteInt(offsets::REGION + offsets::thirdperson_override + 0x6c, -1);
+    		    mem::WriteInt(MyLocalplayer + offsets::m_thirdPersonShoulderView, -1);
+    		}
+    	}
+    	else {
+    		mem::WriteInt(offsets::REGION + offsets::thirdperson_override + 0x6c, -1);
+    		mem::WriteInt(MyLocalplayer + offsets::m_thirdPersonShoulderView, -1);
+    	}
     }
 };
