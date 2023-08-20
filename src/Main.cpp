@@ -111,6 +111,7 @@ int main(int argc, char *argv[])
                 sense->update();
 		
             sense->invisible_my_weapon(); // call the invisible_my_weapon() function on the player object
+            sense->process_thirdperson__pageup();  // call the process_thirdperson__pageup() function on the player object
 
         }
         catch (...)
