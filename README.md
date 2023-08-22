@@ -5,7 +5,7 @@ Simple C++ cheats for Apex Legends (Linux Steam version).
 Hijacks Bloodhound Scan/Caustic Vision to force enable ESP on all players (Visible and Invisible).\
 Has color codes for each type of Evo shield and shows color ranges between green and red for high health and low health respectively
 Has Weapon Chams / Invisible Weapon in hand.\
-Has thirdperson view activated by PageDown Key
+Has thirdperson view activated by PageUp Key
 
 ### NoRecoil
 Reduce weapon recoil (could be improved)
